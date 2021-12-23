@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import './question.dart';
 import './answer.dart';
+import './question.dart';
+import './quiz.dart';
+import 'result.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,12 +15,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final _questions = const [
+    {
+      "questionText": "What's Enzo's favourite colour?",
+      "answers": ["Black", "Purple", "Red", "Blue"]
+    },
+    {
+      "questionText": "What's Enzo's favourite dish?",
+      "answers": ["Yakisoba", "Hamburguer", "Stroganoff", "Feijoada"]
+    },
+    {
+      "questionText": "What's Enzo's favourite drink?",
+      "answers": ["Pepsi", "Toddynho", "Water", "Coca-cola"]
+    },
+    {
+      "questionText": "What's Enzo's favourite anime?",
+      "answers": ["JoJo", "Yu-Gi-Oh!", "Hunter X Hunter", "Demon Slayer"]
+    }
+  ];
+
   var _questionIndex = 0;
 
   void _answerQuestion() {
     setState(() {
       _questionIndex++;
-      if (_questionIndex > 3) {
+      if (_questionIndex > _questions.length) {
         _questionIndex = 0;
       }
     });
@@ -26,37 +47,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      {
-        "questionText": "What's Enzo's favourite colour?",
-        "answers": ["Black", "Purple", "Red", "Blue"]
-      },
-      {
-        "questionText": "What's Enzo's favourite dish?",
-        "answers": ["Yakisoba", "Hamburguer", "Stroganoff", "Feijoada"]
-      },
-      {
-        "questionText": "What's Enzo's favourite drink?",
-        "answers": ["Pepsi", "Toddynho", "Water", "Coca-cola"]
-      },
-      {
-        "questionText": "What's Enzo's favourite anime?",
-        "answers": ["JoJo", "Yu-Gi-Oh!", "Hunter X Hunter", "Demon Slayer"]
-      }
-    ];
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text("App Bar Text"),
         ),
-        body: Column(children: [
-          Question(questions[_questionIndex]["questionText"] as String),
-          ...(questions[_questionIndex]["answers"] as List<String>)
-              .map((answer) => Answer(_answerQuestion, answer))
-              .toList()
-        ]),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                questions: _questions,
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+              )
+            : Result(),
       ),
     );
   }
