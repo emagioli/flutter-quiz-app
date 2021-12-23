@@ -27,26 +27,36 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     var questions = [
-      "What's Enzo's favourite colour?",
-      "What's Enzo's favourite dish?",
-      "What's Enzo's favourite drink?",
-      "What's Enzo's favourite anime?"
+      {
+        "questionText": "What's Enzo's favourite colour?",
+        "answers": ["Black", "Purple", "Red", "Blue"]
+      },
+      {
+        "questionText": "What's Enzo's favourite dish?",
+        "answers": ["Yakisoba", "Hamburguer", "Stroganoff", "Feijoada"]
+      },
+      {
+        "questionText": "What's Enzo's favourite drink?",
+        "answers": ["Pepsi", "Toddynho", "Water", "Coca-cola"]
+      },
+      {
+        "questionText": "What's Enzo's favourite anime?",
+        "answers": ["JoJo", "Yu-Gi-Oh!", "Hunter X Hunter", "Demon Slayer"]
+      }
     ];
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text("App Bar Text"),
         ),
-        body: Column(
-          children: [
-            Question(questions[_questionIndex]),
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
-          ],
-        ),
+        body: Column(children: [
+          Question(questions[_questionIndex]["questionText"] as String),
+          ...(questions[_questionIndex]["answers"] as List<String>)
+              .map((answer) => Answer(_answerQuestion, answer))
+              .toList()
+        ]),
       ),
     );
   }
