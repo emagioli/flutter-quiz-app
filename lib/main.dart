@@ -18,25 +18,49 @@ class _MyAppState extends State<MyApp> {
   final _questions = const [
     {
       "questionText": "What's Enzo's favourite colour?",
-      "answers": ["Black", "Purple", "Red", "Blue"]
+      "answers": [
+        {"text": "Purple", "score": 0},
+        {"text": "Black", "score": 1},
+        {"text": "Red", "score": 0},
+        {"text": "Blue", "score": 0},
+      ]
     },
     {
       "questionText": "What's Enzo's favourite dish?",
-      "answers": ["Yakisoba", "Hamburguer", "Stroganoff", "Feijoada"]
+      "answers": [
+        {"text": "Yakisoba", "score": 1},
+        {"text": "Hamburguer", "score": 0},
+        {"text": "Stroganoff", "score": 0},
+        {"text": "Feijoada", "score": 0},
+      ]
     },
     {
       "questionText": "What's Enzo's favourite drink?",
-      "answers": ["Pepsi", "Toddynho", "Water", "Coca-cola"]
+      "answers": [
+        {"text": "Toddynho", "score": 0},
+        {"text": "Water", "score": 0},
+        {"text": "Pepsi", "score": 1},
+        {"text": "Coca-cola", "score": 0},
+      ]
     },
     {
       "questionText": "What's Enzo's favourite anime?",
-      "answers": ["JoJo", "Yu-Gi-Oh!", "Hunter X Hunter", "Demon Slayer"]
+      "answers": [
+        {"text": "Yu-Gi-Oh!", "score": 1},
+        {"text": "JoJo", "score": 0},
+        {"text": "Hunter X Hunter", "score": 0},
+        {"text": "Demon Slayer", "score": 0},
+      ]
     }
   ];
 
+  var _totalScore = 0;
+
   var _questionIndex = 0;
 
-  void _answerQuestion() {
+  void _answerQuestion(int answerScore) {
+    _totalScore += answerScore;
+
     setState(() {
       _questionIndex++;
       if (_questionIndex > _questions.length) {
@@ -51,7 +75,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("App Bar Text"),
+          title: Text("Enzo's Quiz"),
+          backgroundColor: Colors.black,
         ),
         body: _questionIndex < _questions.length
             ? Quiz(
@@ -59,7 +84,7 @@ class _MyAppState extends State<MyApp> {
                 answerQuestion: _answerQuestion,
                 questionIndex: _questionIndex,
               )
-            : Result(),
+            : Result(_totalScore),
       ),
     );
   }
